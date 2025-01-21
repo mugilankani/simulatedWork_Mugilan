@@ -2,6 +2,8 @@
 
 This is a simple web-based Rock Paper Scissors game built with HTML, CSS, and JavaScript. The game allows you to play against the computer. The objective is to choose one of the three options (rock, paper, or scissors) and see if you can beat the computer's choice.
 
+You can check out the live version of the game here: [Check it out✌️](https://rockpaperscissormugilan.netlify.app)
+
 ## Features
 
 - Interactive buttons to choose Rock, Paper, or Scissors.
@@ -37,3 +39,5 @@ This is a simple web-based Rock Paper Scissors game built with HTML, CSS, and Ja
 ## Credits
 
 Made with ❤️ by [Mugilan](https://www.mugilans.in)
+
+## License
