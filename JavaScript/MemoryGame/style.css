@@ -1,0 +1,117 @@
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 10px;
+  justify-content: center;
+}
+h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  animation: fadeIn 2s ease-in-out;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  width: 80%;
+  max-width: 1200px;
+  height: 90vh;
+}
+.card {
+  background: #fff;
+  color: #333;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+.card .icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  animation: bounce 2s infinite;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Button Styles */
+.button {
+  background: linear-gradient(90deg, #ff8a00, #da1b60);
+  color: #fff;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 138, 0, 0.5);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.button:hover {
+  background: linear-gradient(90deg, #da1b60, #ff8a00);
+  transform: translateY(-5px);
+}
+
+/* Footer */
+footer {
+  position: absolute;
+  bottom: 20px;
+  text-align: center;
+  font-size: 1rem;
+  animation: fadeIn 2s ease-in-out;
+}
+footer span {
+  color: #ff8a00;
+  font-weight: bold;
+  animation: glow 1.5s infinite alternate;
+}
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #ff8a00, 0 0 20px #ff8a00;
+  }
+  to {
+    text-shadow: 0 0 20px #ff8a00, 0 0 30px #ff8a00;
+  }
+}
