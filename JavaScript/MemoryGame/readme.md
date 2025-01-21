@@ -1,22 +1,35 @@
-# Rock Paper Scissors Game  
+# Memory Game  
 
-A simple web-based Rock Paper Scissors game. Play against the computer and test your luck!  
+A fun and interactive memory matching game built with HTML, CSS, and JavaScript. Test your memory by matching pairs of cards!  
 
 [Play the Game](https://memorygamemugilan.netlify.app/)  
 
 ## Features  
 
-- Choose Rock, Paper, or Scissors.  
-- See if you win, lose, or tie against the computer.  
-- Keeps track of scores.  
-- Reset the game anytime.  
+- Interactive grid with clickable cards.  
+- Track your score as you match pairs.  
+- Randomized card arrangement for each game.  
+- Play again by refreshing the page.  
 
 ## How to Play  
 
-1. Click on Rock, Paper, or Scissors.  
-2. The computer makes a choice too.  
-3. Check the result and your score.  
+1. Click on a card to reveal its image.  
+2. Click another card to try and find a match.  
+3. If the cards match, they stay visible; if not, they flip back.  
+4. Keep playing until all pairs are matched.  
 
-## Made By  
+## Setup  
 
-**Mugilan**  
+1. Clone or download the project files.  
+2. Open `index.html` in any browser.  
+3. Start playing and have fun!  
+
+## Files  
+
+- `index.html`: Structure of the game.  
+- `styles.css`: Styling for the game interface.  
+- `memory.js`: Game logic for card matching and score tracking.  
+
+## Credits  
+
+Made with ❤️ by **Mugilan**  
