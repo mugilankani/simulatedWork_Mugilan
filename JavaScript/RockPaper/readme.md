@@ -39,5 +39,3 @@ You can check out the live version of the game here: [Check it out✌️](https:
 ## Credits
 
 Made with ❤️ by [Mugilan](https://www.mugilans.in)
-
-## License
