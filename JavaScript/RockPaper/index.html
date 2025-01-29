@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rock Paper Scissors</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="topContainer">
-        <div class="container">
-            <h1 class="title">Rock Paper Scissors</h1>
-            <div class="buttons">
-              <button id="rock" class="choice-btn">✊ Rock</button>
-              <button id="paper" class="choice-btn">✋ Paper</button>
-              <button id="scisser" class="choice-btn">✌️ Scissors</button>
-            </div>
+    <div class="game-container">
+        <div class="score" id="score">Player: 0 | Computer: 0</div>
         
-            <div id="score" class="scoreboard">Player: <span class="score">0</span> | Computer: <span class="score">0</span></div>
-            <div id="result" class="result-box">Result: <span class="result">Make your move!</span></div>
+        <div class="choices">
+            <button id="rock" class="choice-btn">🪨 Rock</button>
+            <button id="paper" class="choice-btn">📄 Paper</button>
+            <button id="scissors" class="choice-btn">✂️ Scissors</button>
+        </div>
         
-            <button id="reset" class="reset-btn">Reset Game</button>
-          </div>
+        <div class="result-box" id="result">Make your choice!</div>
+        
+        <button id="reset" class="reset-btn">Reset Game</button>
 
+        <div class="mode-toggle">
+            <button id="toggle-mode">🌙 Switch to Dark Mode</button>
+        </div>
     </div>
-    <hr>
-  
-  <div class="credits">
-    Made with ❤️ by 
-    <a href="www.mugilans.in">Mugilan</a> 
-  </div>
-  <script src="./index.js"></script>
+    
+    <script src="index.js"></script>
 </body>
 </html>

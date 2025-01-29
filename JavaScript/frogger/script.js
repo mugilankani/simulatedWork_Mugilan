@@ -132,7 +132,21 @@ function moveCarRight(carRight) {
 			break;
 	}
 }
+let score = 0;
+let lives = 3;
 
+// Update score when the player wins or moves forward
+function win() {
+	if (squares[currentIndex].classList.contains("ending-block")) {
+		score += 10; // Add score for winning
+		resultDisplay.textContent = `You Win! Score: ${score}`;
+		clearInterval(timerId);
+		clearInterval(outcomeTimerId);
+		document.removeEventListener("keyup", moveFrog);
+	}
+}
+
+// Losing condition, deduct lives
 function lose() {
 	if (
 		squares[currentIndex].classList.contains("c1") ||
@@ -140,23 +154,27 @@ function lose() {
 		squares[currentIndex].classList.contains("l5") ||
 		currentTime <= 0
 	) {
-		resultDisplay.textContent = "You lose!";
-		clearInterval(timerId);
-		clearInterval(outcomeTimerId);
-		squares[currentIndex].classList.remove("frog");
-		document.removeEventListener("keyup", moveFrog);
+		lives -= 1; // Deduct a life
+		if (lives > 0) {
+			resultDisplay.textContent = `You lost a life! Lives left: ${lives}`;
+			resetFrogPosition();
+		} else {
+			resultDisplay.textContent = `Game Over! Final Score: ${score}`;
+			clearInterval(timerId);
+			clearInterval(outcomeTimerId);
+			document.removeEventListener("keyup", moveFrog);
+		}
 	}
 }
 
-function win() {
-	if (squares[currentIndex].classList.contains("ending-block")) {
-		resultDisplay.textContent = "You Win!";
-		clearInterval(timerId);
-		clearInterval(outcomeTimerId);
-		document.removeEventListener("keyup", moveFrog);
-	}
+// Function to reset the frog position after losing a life
+function resetFrogPosition() {
+	squares[currentIndex].classList.remove("frog");
+	currentIndex = 76; // Reset to starting position
+	squares[currentIndex].classList.add("frog");
 }
 
+// Restart game button event listener
 startPauseButton.addEventListener("click", () => {
 	if (timerId) {
 		clearInterval(timerId);
@@ -165,8 +183,15 @@ startPauseButton.addEventListener("click", () => {
 		timerId = null;
 		document.removeEventListener("keyup", moveFrog);
 	} else {
+		score = 0;
+		lives = 3;
+		currentTime = 20;
+		timeLeftDisplay.textContent = currentTime;
+		resultDisplay.textContent = "";
+		resetFrogPosition();
 		timerId = setInterval(autoMoveElements, 1000);
 		outcomeTimerId = setInterval(checkOutComes, 50);
 		document.addEventListener("keyup", moveFrog);
 	}
 });
+

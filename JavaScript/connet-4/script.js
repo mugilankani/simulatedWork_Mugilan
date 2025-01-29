@@ -1,161 +1,110 @@
-document.addEventListener("DOMContentLoaded", () => {
-	const squares = document.querySelectorAll(".grid div");
-	const result = document.querySelector("#result");
-	const displayCurrentPlayer = document.querySelector("#current-player");
-	const resetButton = document.querySelector("#reset");
-	let currentPlayer = 1;
-	let gameOver = false;
+const board = document.getElementById("gameBoard");
+const currentPlayerDisplay = document.getElementById("currentPlayer");
+const resetButton = document.getElementById("reset");
 
-	const winningArrays = [
-		// Horizontal wins
-		[0, 1, 2, 3],
-		[1, 2, 3, 4],
-		[2, 3, 4, 5],
-		[3, 4, 5, 6],
-		[7, 8, 9, 10],
-		[8, 9, 10, 11],
-		[9, 10, 11, 12],
-		[10, 11, 12, 13],
-		[14, 15, 16, 17],
-		[15, 16, 17, 18],
-		[16, 17, 18, 19],
-		[17, 18, 19, 20],
-		[21, 22, 23, 24],
-		[22, 23, 24, 25],
-		[23, 24, 25, 26],
-		[24, 25, 26, 27],
-		[28, 29, 30, 31],
-		[29, 30, 31, 32],
-		[30, 31, 32, 33],
-		[31, 32, 33, 34],
-		[35, 36, 37, 38],
-		[36, 37, 38, 39],
-		[37, 38, 39, 40],
-		[38, 39, 40, 41],
+let currentPlayer = 1; // 1 for Red, 2 for Yellow
+let gameBoard = Array(6).fill(null).map(() => Array(7).fill(0)); // 6x7 board initialized to 0
+let gameOver = false;
 
-		// Vertical wins
-		[0, 7, 14, 21],
-		[7, 14, 21, 28],
-		[14, 21, 28, 35],
-		[1, 8, 15, 22],
-		[8, 15, 22, 29],
-		[15, 22, 29, 36],
-		[2, 9, 16, 23],
-		[9, 16, 23, 30],
-		[16, 23, 30, 37],
-		[3, 10, 17, 24],
-		[10, 17, 24, 31],
-		[17, 24, 31, 38],
-		[4, 11, 18, 25],
-		[11, 18, 25, 32],
-		[18, 25, 32, 39],
-		[5, 12, 19, 26],
-		[12, 19, 26, 33],
-		[19, 26, 33, 40],
-		[6, 13, 20, 27],
-		[13, 20, 27, 34],
-		[20, 27, 34, 41],
+// Initialize the game board
+function createBoard() {
+    board.innerHTML = '';
+    for (let row = 0; row < 6; row++) {
+        for (let col = 0; col < 7; col++) {
+            const cell = document.createElement('div');
+            cell.dataset.row = row;
+            cell.dataset.col = col;
+            cell.classList.add('cell');
+            cell.addEventListener('click', handleCellClick);
+            board.appendChild(cell);
+        }
+    }
+}
 
-		// Diagonal wins
-		[3, 9, 15, 21],
-		[4, 10, 16, 22],
-		[5, 11, 17, 23],
-		[6, 12, 18, 24],
-		[14, 22, 30, 38],
-		[15, 23, 31, 39],
-		[16, 24, 32, 40],
-		[17, 25, 33, 41],
-		[20, 26, 32, 38],
-		[19, 25, 31, 37],
-		[18, 24, 30, 36],
-		[17, 23, 29, 35],
-		[0, 8, 16, 24],
-		[1, 9, 17, 25],
-		[2, 10, 18, 26],
-		[3, 11, 19, 27],
-	];
+// Handle player move
+function handleCellClick(e) {
+    if (gameOver) return;
+    const col = parseInt(e.target.dataset.col);
 
-	function checkWin() {
-		for (let combo of winningArrays) {
-			const [a, b, c, d] = combo;
-			if (
-				squares[a].classList.contains("player-one") &&
-				squares[b].classList.contains("player-one") &&
-				squares[c].classList.contains("player-one") &&
-				squares[d].classList.contains("player-one")
-			) {
-				result.textContent = "Player One Wins!";
-				gameOver = true;
-				return true;
-			}
-			if (
-				squares[a].classList.contains("player-two") &&
-				squares[b].classList.contains("player-two") &&
-				squares[c].classList.contains("player-two") &&
-				squares[d].classList.contains("player-two")
-			) {
-				result.textContent = "Player Two Wins!";
-				gameOver = true;
-				return true;
-			}
-		}
-		return false;
-	}
+    // Find the first empty row in the clicked column
+    for (let row = 5; row >= 0; row--) {
+        if (gameBoard[row][col] === 0) {
+            gameBoard[row][col] = currentPlayer;
+            updateBoard();
+            checkWin(row, col);
+            switchPlayer();
+            return;
+        }
+    }
+}
 
-	function checkTie() {
-		return [...squares].every((square) =>
-			square.classList.contains("taken")
-		);
-	}
+// Update the visual board
+function updateBoard() {
+    const cells = board.getElementsByClassName('cell');
+    Array.from(cells).forEach(cell => {
+        const row = cell.dataset.row;
+        const col = cell.dataset.col;
+        if (gameBoard[row][col] === 1) {
+            cell.classList.add('player-one');
+            cell.classList.remove('player-two');
+        } else if (gameBoard[row][col] === 2) {
+            cell.classList.add('player-two');
+            cell.classList.remove('player-one');
+        }
+    });
+}
 
-	function handleClick(i) {
-		if (gameOver || squares[i].classList.contains("taken")) return;
+// Switch players
+function switchPlayer() {
+    currentPlayer = currentPlayer === 1 ? 2 : 1;
+    currentPlayerDisplay.textContent = `Player ${currentPlayer} (${currentPlayer === 1 ? 'Red' : 'Yellow'})`;
+}
 
-		// Find the lowest available spot in the column
-		const column = i % 7;
-		let placed = false;
+// Check if a player has won
+function checkWin(row, col) {
+    if (checkDirection(row, col, 1, 0) || // Horizontal
+        checkDirection(row, col, 0, 1) || // Vertical
+        checkDirection(row, col, 1, 1) || // Diagonal \
+        checkDirection(row, col, 1, -1)) { // Diagonal /
+        gameOver = true;
+        alert(`Player ${currentPlayer} wins!`);
+    } else if (gameBoard.flat().every(cell => cell !== 0)) {
+        // Check for tie
+        gameOver = true;
+        alert("It's a tie!");
+    }
+}
 
-		for (let row = 5; row >= 0; row--) {
-			const index = column + row * 7;
-			if (!squares[index].classList.contains("taken")) {
-				squares[index].classList.add(
-					"taken",
-					currentPlayer === 1 ? "player-one" : "player-two"
-				);
-				placed = true;
+// Check for 4 connected cells in a given direction
+function checkDirection(row, col, rowDir, colDir) {
+    let count = 0;
+    let r = row;
+    let c = col;
+    while (r >= 0 && r < 6 && c >= 0 && c < 7 && gameBoard[r][c] === currentPlayer) {
+        count++;
+        r += rowDir;
+        c += colDir;
+    }
 
-				if (checkWin()) {
-					setTimeout(() => alert(result.textContent), 10);
-					break;
-				}
+    r = row - rowDir;
+    c = col - colDir;
+    while (r >= 0 && r < 6 && c >= 0 && c < 7 && gameBoard[r][c] === currentPlayer) {
+        count++;
+        r -= rowDir;
+        c -= colDir;
+    }
 
-				if (checkTie()) {
-					result.textContent = "Game is a Tie!";
-					gameOver = true;
-					break;
-				}
+    return count >= 4;
+}
 
-				currentPlayer = currentPlayer === 1 ? 2 : 1;
-				displayCurrentPlayer.textContent = currentPlayer;
-				break;
-			}
-		}
-
-		if (!placed) alert("Column is full!");
-	}
-
-	// Initialize game
-	squares.forEach((square, index) => {
-		square.addEventListener("click", () => handleClick(index));
-	});
-
-	resetButton.addEventListener("click", () => {
-		squares.forEach((square) => {
-			square.className = "";
-		});
-		currentPlayer = 1;
-		gameOver = false;
-		result.textContent = "";
-		displayCurrentPlayer.textContent = currentPlayer;
-	});
+// Reset the game
+resetButton.addEventListener('click', () => {
+    gameBoard = Array(6).fill(null).map(() => Array(7).fill(0));
+    gameOver = false;
+    currentPlayer = 1;
+    currentPlayerDisplay.textContent = "Player 1 (Red)";
+    createBoard();
 });
+
+// Start the game
+createBoard();

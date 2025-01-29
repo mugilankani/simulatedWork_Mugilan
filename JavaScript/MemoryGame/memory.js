@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let score = 0;
   let chosenCards = [];
   let chosenCardIds = [];
+  let matchedCards = [];
 
   function createBoard() {
     cardArray.forEach((card, index) => {
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function flipCard() {
     const cardId = this.getAttribute("data-id");
-    if (!chosenCardIds.includes(cardId)) {
+    if (!chosenCardIds.includes(cardId) && !matchedCards.includes(cardId)) {
       chosenCards.push(cardArray[cardId].name);
       chosenCardIds.push(cardId);
       this.firstChild.setAttribute("src", cardArray[cardId].img);
@@ -56,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (chosenCards[0] === chosenCards[1]) {
       cards[cardOneId].classList.add("hidden");
       cards[cardTwoId].classList.add("hidden");
+      matchedCards.push(cardOneId, cardTwoId);
       score++;
       scoreDisplay.textContent = score;
       if (score === cardArray.length / 2) {
